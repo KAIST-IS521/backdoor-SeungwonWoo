@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
     uint32_t pc;
     uint8_t* heap;
     uint32_t* content;
-    int content_size;
+    uint32_t content_size;
 
     // There should be at least one argument.
     if (argc < 2) usageExit();
@@ -150,6 +150,8 @@ int main(int argc, char** argv) {
         stepVMContext(&vm, &pc);
     }
 
+    free(heap);
+    free(content);
     fclose(bytecode);
 
     // Zero indicates normal termination.
