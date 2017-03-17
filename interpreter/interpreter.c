@@ -12,6 +12,7 @@
 
 bool is_running = true;
 uint8_t* heap;
+uint32_t pc;
 
 void halt(struct VMContext* ctx, const uint32_t instr) {
     is_running = false;
@@ -126,11 +127,19 @@ void ite(struct VMContext* ctx, const uint32_t instr) {
     uint8_t imm1 = EXTRACT_B2(instr);
     uint8_t imm2 = EXTRACT_B3(instr);
 
+    uint32_t reg_value = ctx->r[reg].value;
+
+    if (reg_value > 0) {
+        pc = imm1 - 1;
+    } else {
+        pc = imm2 - 1;
+    }
 }
 
 void jump(struct VMContext* ctx, const uint32_t instr) {
     uint8_t imm = EXTRACT_B1(instr);
 
+    pc = imm - 1;
 }
 
 void mini_puts(struct VMContext* ctx, const uint32_t instr) {
@@ -185,7 +194,6 @@ int main(int argc, char** argv) {
     Reg r[NUM_REGS];
     FunPtr f[NUM_FUNCS];
     FILE* bytecode;
-    uint32_t pc;
     uint32_t* content;
     uint32_t content_size;
 
