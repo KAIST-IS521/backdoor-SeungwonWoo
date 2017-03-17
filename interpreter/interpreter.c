@@ -10,8 +10,8 @@
 #define NUM_FUNCS  (256)
 #define HEAP_SIZE 8192
 
-// Global variable that indicates if the process is running.
-static bool is_running = true;
+bool is_running = true;
+uint8_t* heap;
 
 void halt(struct VMContext* ctx, const uint32_t instr) {
 
@@ -112,7 +112,6 @@ int main(int argc, char** argv) {
     FunPtr f[NUM_FUNCS];
     FILE* bytecode;
     uint32_t pc;
-    uint8_t* heap;
     uint32_t* content;
     uint32_t content_size;
 
@@ -147,7 +146,7 @@ int main(int argc, char** argv) {
 
     while (is_running) {
         // TODO: Read 4-byte bytecode, and set the pc accordingly
-        stepVMContext(&vm, &pc);
+        stepVMContext(&vm, &pc, content);
     }
 
     free(heap);
