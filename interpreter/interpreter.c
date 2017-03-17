@@ -20,25 +20,36 @@ void halt(struct VMContext* ctx, const uint32_t instr) {
 void load(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg1 = EXTRACT_B1(instr);
     uint8_t reg2 = EXTRACT_B2(instr);
-    
+
+    uint32_t reg2_value = ctx->r[reg2].value;
+
+    ctx->r[reg1].value = heap[reg2_value];
 }
 
 void store(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg1 = EXTRACT_B1(instr);
     uint8_t reg2 = EXTRACT_B2(instr);
 
+    uint32_t reg1_value = ctx->r[reg1].value;
+    uint32_t reg2_value = ctx->r[reg2].value;
+
+    heap[reg1_value] = reg2_value;
 }
 
 void move(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg1 = EXTRACT_B1(instr);
     uint8_t reg2 = EXTRACT_B2(instr);
 
+    uint32_t reg2_value = ctx->r[reg2].value;
+
+    ctx->r[reg1].value = reg2_value;
 }
 
 void puti(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg = EXTRACT_B1(instr);
     uint8_t imm = EXTRACT_B2(instr);
 
+    ctx->r[reg].value = imm;
 }
 
 void add(struct VMContext* ctx, const uint32_t instr) {
@@ -46,6 +57,11 @@ void add(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg2 = EXTRACT_B2(instr);
     uint8_t reg3 = EXTRACT_B3(instr);
 
+    uint32_t reg2_value = ctx->r[reg2].value;
+    uint32_t reg3_value = ctx->r[reg3].value;
+    uint32_t reg1_value = reg2_value + reg3_value;
+
+    ctx->r[reg1].value = reg1_value;
 }
 
 void sub(struct VMContext* ctx, const uint32_t instr) {
@@ -53,6 +69,11 @@ void sub(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg2 = EXTRACT_B2(instr);
     uint8_t reg3 = EXTRACT_B3(instr);
 
+    uint32_t reg2_value = ctx->r[reg2].value;
+    uint32_t reg3_value = ctx->r[reg3].value;
+    uint32_t reg1_value = reg2_value - reg3_value;
+
+    ctx->r[reg1].value = reg1_value;
 }
 
 void gt(struct VMContext* ctx, const uint32_t instr) {
@@ -60,6 +81,14 @@ void gt(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg2 = EXTRACT_B2(instr);
     uint8_t reg3 = EXTRACT_B3(instr);
 
+    uint32_t reg2_value = ctx->r[reg2].value;
+    uint32_t reg3_value = ctx->r[reg3].value;
+
+    if (reg2_value > reg3_value) {
+        ctx->r[reg1].value = 1;
+    } else {
+        ctx->r[reg1].value = 0;
+    }
 }
 
 void ge(struct VMContext* ctx, const uint32_t instr) {
@@ -67,6 +96,14 @@ void ge(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg2 = EXTRACT_B2(instr);
     uint8_t reg3 = EXTRACT_B3(instr);
 
+    uint32_t reg2_value = ctx->r[reg2].value;
+    uint32_t reg3_value = ctx->r[reg3].value;
+
+    if (reg2_value >= reg3_value) {
+        ctx->r[reg1].value = 1;
+    } else {
+        ctx->r[reg1].value = 0;
+    }
 }
 
 void eq(struct VMContext* ctx, const uint32_t instr) {
@@ -74,6 +111,14 @@ void eq(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg2 = EXTRACT_B2(instr);
     uint8_t reg3 = EXTRACT_B3(instr);
 
+    uint32_t reg2_value = ctx->r[reg2].value;
+    uint32_t reg3_value = ctx->r[reg3].value;
+
+    if (reg2_value == reg3_value) {
+        ctx->r[reg1].value = 1;
+    } else {
+        ctx->r[reg1].value = 0;
+    }
 }
 
 void ite(struct VMContext* ctx, const uint32_t instr) {
