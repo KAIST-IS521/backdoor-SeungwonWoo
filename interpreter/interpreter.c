@@ -14,58 +14,87 @@ bool is_running = true;
 uint8_t* heap;
 
 void halt(struct VMContext* ctx, const uint32_t instr) {
-
+    is_running = false;
 }
 
 void load(struct VMContext* ctx, const uint32_t instr) {
-
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
+    
 }
 
 void store(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
 
 }
 
 void move(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
 
 }
 
 void puti(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg = EXTRACT_B1(instr);
+    uint8_t imm = EXTRACT_B2(instr);
 
 }
 
 void add(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
+    uint8_t reg3 = EXTRACT_B3(instr);
 
 }
 
 void sub(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
+    uint8_t reg3 = EXTRACT_B3(instr);
 
 }
 
 void gt(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
+    uint8_t reg3 = EXTRACT_B3(instr);
 
 }
 
 void ge(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
+    uint8_t reg3 = EXTRACT_B3(instr);
 
 }
 
 void eq(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg1 = EXTRACT_B1(instr);
+    uint8_t reg2 = EXTRACT_B2(instr);
+    uint8_t reg3 = EXTRACT_B3(instr);
 
 }
 
 void ite(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg = EXTRACT_B1(instr);
+    uint8_t imm1 = EXTRACT_B2(instr);
+    uint8_t imm2 = EXTRACT_B3(instr);
 
 }
 
 void jump(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t imm = EXTRACT_B1(instr);
 
 }
 
 void mini_puts(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg = EXTRACT_B1(instr);
 
 }
 
 void mini_gets(struct VMContext* ctx, const uint32_t instr) {
+    uint8_t reg = EXTRACT_B1(instr);
 
 }
 
