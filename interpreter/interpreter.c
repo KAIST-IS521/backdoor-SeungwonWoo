@@ -155,9 +155,6 @@ void mini_puts(struct VMContext* ctx, const uint32_t instr) {
         write(STDOUT_FILENO, &buf, 1);
         heap_pointer++;
     }
-
-    buf = '\n';
-    write(STDOUT_FILENO, &buf, 1);
 }
 
 void mini_gets(struct VMContext* ctx, const uint32_t instr) {
