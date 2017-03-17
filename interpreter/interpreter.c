@@ -8,6 +8,7 @@
 
 #define NUM_REGS   (256)
 #define NUM_FUNCS  (256)
+#define HEAP_SIZE 8192
 
 // Global variable that indicates if the process is running.
 static bool is_running = true;
@@ -110,7 +111,10 @@ int main(int argc, char** argv) {
     Reg r[NUM_REGS];
     FunPtr f[NUM_FUNCS];
     FILE* bytecode;
-    uint32_t* pc;
+    uint32_t pc;
+    uint8_t* heap;
+    uint32_t* content;
+    int content_size;
 
     // There should be at least one argument.
     if (argc < 2) usageExit();
@@ -128,6 +132,18 @@ int main(int argc, char** argv) {
         perror("fopen");
         return 1;
     }
+
+    // Initialize pc
+    pc = 0;
+    // Initialize heap
+    heap = (uint8_t*)malloc(HEAP_SIZE);
+    // Initialize content_size
+    fseek(bytecode, 0, SEEK_END);
+    content_size = ftell(bytecode);
+    fseek(bytecode, 0, SEEK_SET);
+    // Initialize content
+    content = (uint32_t*)malloc(content_size);
+    fread(content, 1, content_size, bytecode);
 
     while (is_running) {
         // TODO: Read 4-byte bytecode, and set the pc accordingly
