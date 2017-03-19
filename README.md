@@ -17,10 +17,10 @@
     * minivm.h: minivm.c의 header file.
     * minivm.c: pc를 이용해서 명령을 차례대로 읽어주고 맞는 함수를 호출하는 기능.
 
-- ./compiler/comiler.ml: mini language를 bytecode로 컴파일해주는 기능.
+- ./compiler/comiler.ml: mini language를 bytecode로 컴파일해주는 기능. 과제에서 주어진 컴파일러를 수정하지 않고 사용하였다.
 
 
-## What I learnd
+## What I learned
 - Interpreter의 기본적인 동작 과정을 알게 되었다.
 - Interpreter의 몇몇 기능을 구현하면서 내부에서 어떤 식으로 돌아가는지 알게 되었다.
 - Backdoor가 무엇인지 알게 되었으며 어떤 식으로 돌아가는지 알게 되었다.
