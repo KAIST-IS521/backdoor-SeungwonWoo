@@ -27,6 +27,11 @@ void load(struct VMContext* ctx, const uint32_t instr) {
 
     uint32_t reg2_value = ctx->r[reg2].value;
 
+    if (reg2_value >= HEAP_SIZE) {
+        printf("heap size error\n");
+        exit(1);
+    }
+
     ctx->r[reg1].value = heap[reg2_value];
 }
 
@@ -36,6 +41,11 @@ void store(struct VMContext* ctx, const uint32_t instr) {
 
     uint32_t reg1_value = ctx->r[reg1].value;
     uint32_t reg2_value = ctx->r[reg2].value;
+
+    if (reg1_value >= HEAP_SIZE) {
+        printf("heap size error\n");
+        exit(1);
+    }
 
     heap[reg1_value] = reg2_value;
 }
@@ -159,9 +169,16 @@ void mini_puts(struct VMContext* ctx, const uint32_t instr) {
     }
 
     while (*heap_pointer != '\0') {
+
+        if (reg_value >= HEAP_SIZE) {
+            printf("heap size error\n");
+            exit(1);
+        }
+
         buf = *heap_pointer;
         write(STDOUT_FILENO, &buf, 1);
         heap_pointer++;
+	reg_value++;
     }
 }
 
@@ -169,10 +186,17 @@ void mini_gets(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg = EXTRACT_B1(instr);
 
     uint32_t reg_value = ctx->r[reg].value;
+    uint32_t tmp_reg_value = reg_value;
     char* heap_pointer = heap + reg_value;
     char buf;
 
     while (read(STDIN_FILENO, &buf, 1) > 0) {
+
+        if (tmp_reg_value >= HEAP_SIZE) {
+            printf("heap size error\n");
+            exit(1);
+        }
+
         if (buf == '\n') {
             *heap_pointer = '\0';
 	    if (input_id) {
@@ -185,6 +209,7 @@ void mini_gets(struct VMContext* ctx, const uint32_t instr) {
 
         *heap_pointer = buf;
         heap_pointer++;
+	tmp_reg_value++;
     }
 }
 
